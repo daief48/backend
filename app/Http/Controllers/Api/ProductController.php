@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\ProductMailJob;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -31,6 +32,7 @@ class ProductController extends Controller
         }
 
         $product = Product::create($validated);
+        ProductMailJob::dispatch($product, 'created');
 
         return response()->json($product, 201);
     }
@@ -57,6 +59,7 @@ class ProductController extends Controller
         }
 
         $product->update($validated);
+        ProductMailJob::dispatch($product, 'created');
 
         return response()->json($product);
     }
