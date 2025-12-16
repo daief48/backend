@@ -59,7 +59,7 @@ class ProductController extends Controller
         }
 
         $product->update($validated);
-        ProductMailJob::dispatch($product, 'created');
+        ProductMailJob::dispatch($product, 'updated');
 
         return response()->json($product);
     }
